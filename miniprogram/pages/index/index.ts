@@ -21,9 +21,13 @@ Component({
         url: '../logs/logs',
       })
     },
+    onLogin(){
+      console.log("ajaja")
+    },
     onChooseAvatar(e: any) {
       const { avatarUrl } = e.detail
       const { nickName } = this.data.userInfo
+      
       this.setData({
         "userInfo.avatarUrl": avatarUrl,
         hasUserInfo: nickName && avatarUrl && avatarUrl !== defaultAvatarUrl,

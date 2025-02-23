@@ -10,6 +10,8 @@
           <text class="nickname-label">昵称</text>
           <input type="nickname" class="nickname-input" placeholder="请输入昵称" bind:change="onInputChange" />
         </view>
+  
+  
       </block>
       <block wx:elif="{{!hasUserInfo}}">
         <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取头像昵称 </button>
@@ -23,5 +25,6 @@
     <view class="usermotto">
       <text class="user-motto">{{motto}}</text>
     </view>
+    <button type="primary" bindtap="onLogin" style="position: relative; left: 0rpx; top: -525rpx; width: 264rpx; height: 77rpx; display: block; box-sizing: border-box">登录</button>
   </view>
 </scroll-view>
