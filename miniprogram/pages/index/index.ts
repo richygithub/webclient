@@ -22,6 +22,33 @@ Component({
       })
     },
     onLogin(){
+      wx.login({
+        success:res=>{
+          console.log("login ok:",res.code)
+          wx.request({
+            url:"https://127.0.0.1/login",
+            method:"POST",
+            data:{code:res.code},
+            success:(resp)=>{
+              console.log("my server resp:",resp.data)
+              wx.showToast({
+                title:"login OK",
+                icon:"success"
+              })
+            },
+            fail:(resp)=>{
+              console.log("loginfail:",resp.errMsg)
+              wx.showToast({
+                title:"login fail",
+                icon:"error"
+              })
+            }
+          })
+        },
+        fail:res=>{
+          console.log("login fail:",res.errMsg)
+        }
+      })
       console.log("ajaja")
     },
     onChooseAvatar(e: any) {
