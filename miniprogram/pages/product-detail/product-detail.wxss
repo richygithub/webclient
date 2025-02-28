@@ -1,0 +1,98 @@
+/* pages/product-detail/product-detail.wxss */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx;
+  background-color: #f5f5f5;
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+}
+
+.dot-menu,
+.scan {
+  width: 60rpx;
+  height: 60rpx;
+  background-color: #ff9800;
+  border-radius: 50%;
+  margin-right: 20rpx;
+}
+
+.product-list {
+  flex: 1;
+  overflow: hidden;
+}
+
+.camp-item {
+  display: flex;
+  padding: 20rpx;
+  border-bottom: 1px solid #eee;
+}
+
+.camp-image {
+  width: 200rpx;
+  height: 150rpx;
+  margin-right: 20rpx;
+}
+
+.camp-info {
+  flex: 1;
+}
+
+.camp-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+
+.camp-desc {
+  font-size: 20rpx;
+  color: #666;
+}
+
+/* 底部导航栏样式优化 */
+.tabbar {
+  display: flex;
+  justify-content: space-around; /* 均匀分布 */
+  align-items: center;
+  height: 120rpx; /* 增加高度 */
+  background-color: #fff;
+  border-top: 1px solid #eee;
+  padding: 0 20rpx; /* 增加左右内边距 */
+}
+
+.tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 120rpx; /* 设置最小宽度 */
+  max-width: 150rpx; /* 设置最大宽度 */
+  text-align: center;
+}
+
+.tab-icon {
+  width: 50rpx; /* 减小图标尺寸 */
+  height: 50rpx;
+  margin-bottom: 10rpx;
+}
+
+.tab-item text {
+  font-size: 24rpx; /* 调整字体大小 */
+  color: #666;
+}

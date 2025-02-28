@@ -1,0 +1,46 @@
+<!-- pages/product-detail/product-detail.wxml -->
+<view class="container">
+  <!-- 顶部导航栏 -->
+  <view class="top-nav">
+    <view class="title">丈量世界</view>
+    <view class="buttons">
+      <button class="dot-menu"></button>
+      <button class="scan"></button>
+    </view>
+  </view>
+
+  <!-- 产品详情滑动窗口 -->
+  <!-- 产品详情滑动窗口 -->
+  <swiper class="product-list" indicator-dots="{{true}}" autoplay="{{true}}" interval="{{3000}}" duration="{{1000}}">
+    <swiper-item wx:for="{{campList}}" wx:key="index">
+      <view class="camp-item">
+        <image class="camp-image" src="{{camp.image}}" mode="aspectFill"></image>
+        <view class="camp-info">
+          <!-- 添加标题栏 -->
+          <view class="camp-title-bar">{{camp.title}}</view>
+          <view class="camp-desc">{{camp.description}}</view>
+        </view>
+      </view>
+    </swiper-item>
+  </swiper>
+
+  <!-- 底部导航栏 -->
+  <view class="tabbar">
+    <view class="tab-item" data-page="home" bindtap="switchTab">
+      <image class="tab-icon" src="/images/home.png" mode="aspectFit"></image>
+      <text>首页</text>
+    </view>
+    <view class="tab-item" data-page="square" bindtap="switchTab">
+      <image class="tab-icon" src="/images/square.png" mode="aspectFit"></image>
+      <text>广场</text>
+    </view>
+    <view class="tab-item" data-page="trip" bindtap="switchTab">
+      <image class="tab-icon" src="/images/trip.png" mode="aspectFit"></image>
+      <text>行程</text>
+    </view>
+    <view class="tab-item" data-page="me" bindtap="switchTab">
+      <image class="tab-icon" src="/images/me.png" mode="aspectFit"></image>
+      <text>我</text>
+    </view>
+  </view>
+</view>
