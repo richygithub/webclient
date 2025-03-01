@@ -14,3 +14,10 @@ interface Order {
   }
   // 添加其他必要字段
 }
+
+interface Course {
+  id: string
+  title: string
+  price: number
+  cover: string
+}

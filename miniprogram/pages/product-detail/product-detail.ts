@@ -57,29 +57,25 @@ Page({
   },
 
   async loadCourseDetail(id: string) {
-    try {
-      const res = await new Promise<WechatMiniprogram.RequestSuccessCallbackResult<ApiResponse<CourseInfo>>>(
-        (resolve, reject) => {
-          wx.request({
-            url: `${getApp().globalData.apiBase}/courses/${id}`,
-            method: 'GET',
-            success: resolve,
-            fail: reject
-          })
-        }
-      )
 
-      if (res.statusCode === 200 && res.data.code === 0) {
+
+    wx.request<CourseInfo>({
+      url: `${getApp().globalData.apiBase}/courses/${id}`,
+      method: 'GET',
+      success: (res) => {
+        console.log('请求成功:', res.data); // res.data为服务器响应内容
+
         this.setData({
-          course: res.data.data,
+          course: res.data,
           loading: false
         })
-      } else {
+      },
+      fail: (err) => {
         this.handleError()
-      }
-    } catch (err) {
-      this.handleError()
-    }
+        console.error('请求失败:', err);
+      },
+    })
+
   },
 
   handleError() {

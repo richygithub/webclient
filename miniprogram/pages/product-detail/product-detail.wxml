@@ -45,6 +45,11 @@
         <text class="section-title">课程介绍</text>
         <text class="desc">{{course.desc}}</text>
       </view>
+      <view class="qrcode-section">
+        <text class="section-title">课程二维码</text>
+        <image src="{{qrcodeUrl}}" class="qrcode-image" mode="widthFix" />
+        <button bindtap="saveQrcode">保存二维码</button>
+      </view>
     </view>
   </scroll-view>
 

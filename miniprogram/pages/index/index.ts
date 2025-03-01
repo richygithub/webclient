@@ -19,15 +19,41 @@ Page({
   },
 
   async loadCourses() {
-    // 模拟数据
-    this.setData({
-      courses: Array(5).fill(0).map((_,i) => ({
-        id: i.toString(),
-        title: `自然探索课程 ${i+1}`,
-        price: 298 + i * 100,
-        cover: `https://picsum.photos/750/500?nature${i}`
-      }))
-    })
+    try{
+
+      // const res = await wx.request<ApiResponse<Course[]>>({
+      //   url: `${getApp().globalData.apiBase}/courses/`,
+      //   method: 'GET'
+      // })
+      
+      wx.request<Course[]>({
+            url: `${getApp().globalData.apiBase}/courses/`,
+          method: 'GET',
+          success: (res) => {
+            console.log('请求成功:', res.data); // res.data为服务器响应内容
+
+            this.setData({
+              courses:res.data
+            })
+          },
+          fail: (err) => {
+            console.error('请求失败:', err);
+          },
+      })
+
+    }catch(err){
+      console.log("load err:",err)
+    }
+
+    // // 模拟数据
+    // this.setData({
+    //   courses: Array(5).fill(0).map((_,i) => ({
+    //     id: i.toString(),
+    //     title: `自然探索课程 ${i+1}`,
+    //     price: 298 + i * 100,
+    //     cover: `https://picsum.photos/750/500?nature${i}`
+    //   }))
+    // })
   },
 
   checkOrders() {
@@ -68,9 +94,3 @@ Page({
   }
 })
 
-interface Course {
-  id: string
-  title: string
-  price: number
-  cover: string
-}

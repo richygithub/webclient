@@ -147,3 +147,24 @@
   font-size: 34rpx;
   font-weight: 500;
 }
+
+
+.qrcode-section {
+  margin: 40rpx;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 32rpx;
+  color: #333;
+  margin-bottom: 30rpx;
+  display: block;
+}
+
+.qrcode-image {
+  width: 60%;
+  height: auto;
+  margin: 20rpx auto;
+  border: 1rpx solid #eee;
+  padding: 20rpx;
+}

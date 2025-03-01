@@ -1,8 +1,10 @@
 // components/countdown.ts
+let _timer = 0 as number
 Component({
   properties: {
     expireAt: { type: Number, value: 0 } // 修复类型定义
   },
+ 
   data: {
     timeLeft: '00:00'
   },
@@ -13,6 +15,8 @@ Component({
   },
 
   methods: {
+
+
     updateTimer(expireAt: number) {
       const update = () => {
         if (!expireAt) return
@@ -20,7 +24,7 @@ Component({
         const now = Date.now()
         if (now >= expireAt) {
           this.setData({ timeLeft: '已过期' })
-          clearInterval(this.timer)
+          clearInterval(_timer)
           this.triggerEvent('expired')
           return
         }
@@ -32,11 +36,11 @@ Component({
       }
 
       update()
-      this.timer = setInterval(update, 1000)
+      _timer = setInterval(update, 1000)
     }
   },
 
   detached() {
-    clearInterval(this.timer)
+    clearInterval(_timer)
   }
 })

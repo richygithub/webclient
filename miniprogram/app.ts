@@ -1,6 +1,8 @@
 // app.ts
 App<IAppOption>({
-  globalData: {},
+  globalData: {
+    apiBase:"https://127.0.0.1:443"
+  },
   onLaunch() {
     // 展示本地存储能力
     const logs = wx.getStorageSync('logs') || []
