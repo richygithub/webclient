@@ -1,85 +1,76 @@
-// index.ts
-// 获取应用实例
-const app = getApp<IAppOption>()
-const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
-
-Component({
+// pages/index/index.ts
+Page({
   data: {
-    motto: 'Hello World',
-    userInfo: {
-      avatarUrl: defaultAvatarUrl,
-      nickName: '',
-    },
-    hasUserInfo: false,
-    canIUseGetUserProfile: wx.canIUse('getUserProfile'),
-    canIUseNicknameComp: wx.canIUse('input.type.nickname'),
+    currentTab: 'home',
+    tabs: [
+      { key: 'home', text: '首页', icon: '/images/home.png', activeIcon: '/images/home-active.png' },
+      { key: 'schedule', text: '行程', icon: '/images/schedule.png', activeIcon: '/images/schedule-active.png' },
+      { key: 'cart', text: '购物车', icon: '/images/cart.png', activeIcon: '/images/cart-active.png' },
+      { key: 'me', text: '我', icon: '/images/me.png', activeIcon: '/images/me-active.png' }
+    ],
+    courses: [] as Course[],
+    orders: [] as Order[], 
+    cartBadge: false
   },
-  methods: {
-    // 事件处理函数
-    bindViewTap() {
-      wx.navigateTo({
-        url: '../logs/logs',
-      })
-    },
-    onLogin(){
-      wx.login({
-        success:res=>{
-          console.log("login ok:",res.code)
-          wx.request({
-            url:"https://127.0.0.1/login",
-            method:"POST",
-            data:{code:res.code},
-            success:(resp)=>{
-              console.log("my server resp:",resp.data)
-              wx.showToast({
-                title:"login OK",
-                icon:"success"
-              })
-            },
-            fail:(resp)=>{
-              console.log("loginfail:",resp.errMsg)
-              wx.showToast({
-                title:"login fail",
-                icon:"error"
-              })
-            }
-          })
-        },
-        fail:res=>{
-          console.log("login fail:",res.errMsg)
-        }
-      })
-      console.log("ajaja")
-    },
-    onChooseAvatar(e: any) {
-      const { avatarUrl } = e.detail
-      const { nickName } = this.data.userInfo
-      
-      this.setData({
-        "userInfo.avatarUrl": avatarUrl,
-        hasUserInfo: nickName && avatarUrl && avatarUrl !== defaultAvatarUrl,
-      })
-    },
-    onInputChange(e: any) {
-      const nickName = e.detail.value
-      const { avatarUrl } = this.data.userInfo
-      this.setData({
-        "userInfo.nickName": nickName,
-        hasUserInfo: nickName && avatarUrl && avatarUrl !== defaultAvatarUrl,
-      })
-    },
-    getUserProfile() {
-      // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认，开发者妥善保管用户快速填写的头像昵称，避免重复弹窗
-      wx.getUserProfile({
-        desc: '展示用户信息', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
-        success: (res) => {
-          console.log(res)
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
-          })
-        }
-      })
-    },
+
+  onLoad() {
+    this.loadCourses()
+    this.checkOrders()
   },
+
+  async loadCourses() {
+    // 模拟数据
+    this.setData({
+      courses: Array(5).fill(0).map((_,i) => ({
+        id: i.toString(),
+        title: `自然探索课程 ${i+1}`,
+        price: 298 + i * 100,
+        cover: `https://picsum.photos/750/500?nature${i}`
+      }))
+    })
+  },
+
+  checkOrders() {
+    // 模拟未支付订单
+    this.setData({ 
+      cartBadge: true,
+      orders: [{
+        _id: 'mock_order',
+        expireAt: Date.now() + 30 * 60 * 1000,
+        course: { title: '模拟课程' }
+      }]
+    })
+  },
+
+  switchTab(e: WechatMiniprogram.TouchEvent) {
+    const tab = e.currentTarget.dataset.key
+    this.setData({ currentTab: tab })
+    
+    // 其他tab的数据加载逻辑
+    if (tab === 'schedule') this.loadSchedule()
+    if (tab === 'me') this.loadProfile()
+  },
+  // 添加缺失的方法
+  loadSchedule() {
+    // 行程页面数据加载逻辑
+    console.log('加载行程数据')
+  },
+
+  loadProfile() {
+    // 个人中心数据加载逻辑
+    console.log('加载个人资料')
+  },
+  navigateToDetail(e: WechatMiniprogram.TouchEvent) {
+    const id = e.currentTarget.dataset.id
+    wx.navigateTo({
+      url: `/pages/product-detail/product-detail?id=${id}`
+    })
+  }
 })
+
+interface Course {
+  id: string
+  title: string
+  price: number
+  cover: string
+}

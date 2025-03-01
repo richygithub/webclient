@@ -1,46 +1,55 @@
 <!-- pages/product-detail/product-detail.wxml -->
 <view class="container">
-  <!-- 顶部导航栏 -->
-  <view class="top-nav">
-    <view class="title">丈量世界</view>
-    <view class="buttons">
-      <button class="dot-menu"></button>
-      <button class="scan"></button>
-    </view>
+  <!-- 加载状态 -->
+  <view wx:if="{{loading}}" class="loading-container">
+    <loading type="circles" color="#07c160" />
+    <text class="loading-text">加载中...</text>
   </view>
 
-  <!-- 产品详情滑动窗口 -->
-  <!-- 产品详情滑动窗口 -->
-  <swiper class="product-list" indicator-dots="{{true}}" autoplay="{{true}}" interval="{{3000}}" duration="{{1000}}">
-    <swiper-item wx:for="{{campList}}" wx:key="index">
-      <view class="camp-item">
-        <image class="camp-image" src="{{camp.image}}" mode="aspectFill"></image>
-        <view class="camp-info">
-          <!-- 添加标题栏 -->
-          <view class="camp-title-bar">{{camp.title}}</view>
-          <view class="camp-desc">{{camp.description}}</view>
+  <!-- 错误状态 -->
+  <view wx:elif="{{error}}" class="error-container">
+    <image src="/images/error.png" class="error-icon" />
+    <text class="error-text">加载失败，请重试</text>
+    <button class="retry-btn" bindtap="loadCourseDetail">重新加载</button>
+  </view>
+
+  <!-- 内容区 -->
+  <scroll-view wx:else scroll-y class="content">
+    <!-- 图片轮播 -->
+    <swiper class="swiper" indicator-dots autoplay interval="5000">
+      <swiper-item wx:for="{{course.images}}" wx:key="index">
+        <image src="{{item}}" mode="aspectFill" class="swiper-image" />
+      </swiper-item>
+    </swiper>
+
+    <!-- 课程信息 -->
+    <view class="info-section">
+      <view class="price-row">
+        <text class="price">¥{{course.price}}</text>
+        <text class="duration">{{course.duration}}</text>
+      </view>
+      <text class="title">{{course.title}}</text>
+      <text class="location">{{course.location}}</text>
+      
+      <!-- 特色亮点 -->
+      <view class="features">
+        <text class="section-title">课程亮点</text>
+        <view wx:for="{{course.features}}" wx:key="index" class="feature-item">
+          <text class="dot">•</text>
+          <text class="text">{{item}}</text>
         </view>
       </view>
-    </swiper-item>
-  </swiper>
 
-  <!-- 底部导航栏 -->
-  <view class="tabbar">
-    <view class="tab-item" data-page="home" bindtap="switchTab">
-      <image class="tab-icon" src="/images/home.png" mode="aspectFit"></image>
-      <text>首页</text>
+      <!-- 课程描述 -->
+      <view class="desc-section">
+        <text class="section-title">课程介绍</text>
+        <text class="desc">{{course.desc}}</text>
+      </view>
     </view>
-    <view class="tab-item" data-page="square" bindtap="switchTab">
-      <image class="tab-icon" src="/images/square.png" mode="aspectFit"></image>
-      <text>广场</text>
-    </view>
-    <view class="tab-item" data-page="trip" bindtap="switchTab">
-      <image class="tab-icon" src="/images/trip.png" mode="aspectFit"></image>
-      <text>行程</text>
-    </view>
-    <view class="tab-item" data-page="me" bindtap="switchTab">
-      <image class="tab-icon" src="/images/me.png" mode="aspectFit"></image>
-      <text>我</text>
-    </view>
+  </scroll-view>
+
+  <!-- 底部购买栏 -->
+  <view class="footer">
+    <button class="buy-btn" bindtap="handleBuy">立即购买</button>
   </view>
 </view>

@@ -1,4 +1,40 @@
-<!--index.wxml-->
+<!-- pages/index/index.wxml -->
+<view class="container">
+  <!-- 内容区域 -->
+  <scroll-view wx:if="{{currentTab === 'home'}}" scroll-y class="content">
+    <view class="course-list">
+      <view wx:for="{{courses}}" wx:key="id" 
+            class="course-item" bindtap="navigateToDetail" 
+            data-id="{{item.id}}">
+        <image src="{{item.cover}}" class="cover" />
+        <view class="info">
+          <text class="title">{{item.title}}</text>
+          <text class="price">¥{{item.price}}</text>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <view wx:if="{{currentTab === 'cart'}}" class="cart-content">
+    <view wx:for="{{orders}}" wx:key="_id" class="order-item">
+      <text class="course-title">{{items.course.title}}</text>
+      <countdown expireAt="{{item.expireAt}}" />
+      <button bindtap="payOrder" data-id="{{item._id}}">立即支付</button>
+    </view>
+    <view wx:if="{{!orders.length}}" class="empty">暂无待支付订单</view>
+  </view>
+
+  <!-- 底部导航 -->
+  <view class="tab-bar">
+    <view wx:for="{{tabs}}" wx:key="key" 
+          class="tab-item {{currentTab === item.key ? 'active' : ''}}" 
+          bindtap="switchTab" data-key="{{item.key}}">
+      <image src="{{currentTab === item.key ? item.activeIcon : item.icon}}" class="tab-icon" />
+      <text class="tab-text">{{item.text}}</text>
+      <view wx:if="{{item.key === 'cart' && cartBadge}}" class="badge" />
+    </view>
+  </view>
+</view><!--index.wxml-->
 <scroll-view class="scrollarea" scroll-y type="list">
   <view class="container">
     <view class="userinfo">

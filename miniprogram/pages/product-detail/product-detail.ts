@@ -1,65 +1,103 @@
 // pages/product-detail/product-detail.ts
+
+interface ApiResponse<T> {
+  code: number
+  message?: string
+  data: T
+}
+
+interface CourseInfo {
+  id: string
+  title: string
+  price: number
+  desc: string
+  images: string[]
+  duration: string
+  location: string
+  features: string[]
+}
+// 模拟数据生成器
+const mockCourseData = (id: string): CourseInfo => ({
+  id,
+  title: '沉浸式自然探索课程',
+  price: 298,
+  desc: '这是一门专为青少年设计的户外探索课程，通过实地观察、动手实践和团队协作，帮助学员深入了解生态系统。课程包含森林徒步、动植物识别、野外生存技能等内容。',
+  images: [
+    'https://picsum.photos/750/500?random=1',
+    'https://picsum.photos/750/500?random=2',
+    'https://picsum.photos/750/500?random=3'
+  ],
+  duration: '2天1夜',
+  location: '杭州西溪国家湿地公园',
+  features: [
+    '专业自然导师带队',
+    '安全保险全程覆盖',
+    '提供全套探索装备',
+    '小班制教学（6-8人）',
+    '颁发课程结业证书'
+  ]
+})
+
 Page({
   data: {
-    campList: [] as Camp[]// 研学营列表
+    course: {} as CourseInfo,
+    loading: true,
+    error: false
   },
 
-  /**
-   * 页面加载时触发
-   */
-  onLoad() {
-    this.fetchCampList();
+  onLoad(options: { id: string }) {
+    //this.loadCourseDetail(options.id)
+        // 模拟延迟加载
+        setTimeout(() => {
+          this.setData({
+            course: mockCourseData(options.id || 'mock_001'),
+            loading: false
+          })
+        }, 800) // 0.8秒模拟网络延迟
   },
 
-  /**
-   * 模拟从后端获取研学营列表数据
-   */
-  fetchCampList() {
-    const campList = [
-      {
-        image: 'https://example.com/image1.jpg',
-        title: '广州市铁一中学番禺校区高三11班 鼎湖山春季研学营',
-        description: '问鼎征途 • 决战高考'
-      },
-      {
-        image: 'https://example.com/image2.jpg',
-        title: '广州市铁一中学番禺校区高三12班 鼎湖山春季研学营',
-        description: '问鼎征途 • 决战高考'
+  async loadCourseDetail(id: string) {
+    try {
+      const res = await new Promise<WechatMiniprogram.RequestSuccessCallbackResult<ApiResponse<CourseInfo>>>(
+        (resolve, reject) => {
+          wx.request({
+            url: `${getApp().globalData.apiBase}/courses/${id}`,
+            method: 'GET',
+            success: resolve,
+            fail: reject
+          })
+        }
+      )
+
+      if (res.statusCode === 200 && res.data.code === 0) {
+        this.setData({
+          course: res.data.data,
+          loading: false
+        })
+      } else {
+        this.handleError()
       }
-      // ... 更多研学营信息
-    ];
-    this.setData({ campList });
+    } catch (err) {
+      this.handleError()
+    }
   },
 
-  /**
-   * 切换到其他页面
-   */
-  switchTab(e: any) {
-    const page = e.currentTarget.dataset.page;
-    let url = '';
+  handleError() {
+    this.setData({ loading: false, error: true })
+    wx.showToast({ title: '数据加载失败', icon: 'none' })
+  },
 
-    switch (page) {
-      case 'home':
-        url = '/pages/index/index';
-        break;
-      case 'square':
-        url = '/pages/square/square';
-        break;
-      case 'trip':
-        url = '/pages/trip/trip';
-        break;
-      case 'me':
-        url = '/pages/me/me';
-        break;
-    }
+  handleBuy() {
+    const { id, price } = this.data.course
+    wx.navigateTo({
+      url: `/pages/payment/payment?courseId=${id}&amount=${price}`
+    })
+  },
 
-    if (url) {
-      wx.switchTab({ url });
-    } else {
-      wx.showToast({
-        title: '页面不存在',
-        icon: 'none'
-      });
+  onShareAppMessage() {
+    return {
+      title: `${this.data.course.title} | 推荐课程`,
+      path: `/pages/product-detail/product-detail?id=${this.data.course.id}`
     }
   }
-});
+})

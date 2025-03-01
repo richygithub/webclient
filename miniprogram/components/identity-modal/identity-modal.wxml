@@ -1,0 +1,31 @@
+<!-- components/identity-modal.wxml -->
+<view class="modal-mask" wx:if="{{show}}">
+  <view class="modal-content">
+    <view class="modal-header">身份信息验证</view>
+    
+    <view class="form-item">
+      <text class="label required">姓名</text>
+      <input value="{{form.name}}" placeholder="请输入真实姓名" bindinput="onNameInput"/>
+    </view>
+
+    <view class="form-item">
+      <text class="label required">身份证号</text>
+      <input value="{{form.idCard}}" placeholder="请输入身份证号码" bindinput="onIdCardInput"/>
+    </view>
+
+    <view class="form-item">
+      <text class="label required">手机号</text>
+      <input value="{{form.phone}}" type="number" placeholder="请输入手机号码" bindinput="onPhoneInput"/>
+    </view>
+
+    <view class="form-item">
+      <text class="label">昵称</text>
+      <input value="{{form.nickname}}" placeholder="请输入昵称（可选）" bindinput="onNicknameInput"/>
+    </view>
+
+    <view class="button-group">
+      <button class="cancel-btn" bindtap="onCancel">取消</button>
+      <button class="submit-btn" bindtap="onSubmit">提交验证</button>
+    </view>
+  </view>
+</view>
