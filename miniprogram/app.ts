@@ -1,7 +1,7 @@
 // app.ts
 App<IAppOption>({
   globalData: {
-    apiBase:"https://127.0.0.1:443"
+    apiBase:"https://47.94.74.16:443"
   },
   onLaunch(options) {
 
