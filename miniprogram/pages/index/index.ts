@@ -28,6 +28,9 @@ Page({
       
       wx.request<Course[]>({
             url: `${getApp().globalData.apiBase}/courses/`,
+            header: {
+              'ngrok-skip-browser-warning': 'true' // 关键头信息
+            },
           method: 'GET',
           success: (res) => {
             console.log('请求成功:', res.data); // res.data为服务器响应内容

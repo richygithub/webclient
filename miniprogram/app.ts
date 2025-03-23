@@ -1,10 +1,15 @@
 // app.ts
 App<IAppOption>({
   globalData: {
-    apiBase:"https://47.94.74.16:443"
+    //apiBase:"https://47.94.74.16:443"
+    apiBase:"https://libl.top/api"
   },
   onLaunch(options) {
 
+    if(options.scene){
+       console.log("scan code1.",options.scene)
+    }
+   console.log("launch path",options.path)
     if (options.query.scene) { // 处理扫码场景
       console.log("scan code.",options.query.scene)
       const scene = decodeURIComponent(options.query.scene)
