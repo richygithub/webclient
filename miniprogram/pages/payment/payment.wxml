@@ -1,0 +1,42 @@
+<view class="container">
+  <!-- 课程信息 -->
+  <view class="course-info">
+    <text class="title">游学课程购买</text>
+    <text class="price">金额：¥{{amount.toFixed(2)}}</text>
+  </view>
+
+  <!-- 表单区域 -->
+  <view class="form">
+    <view class="form-item">
+      <text class="label">出行人姓名</text>
+      <input 
+        class="input" 
+        placeholder="请输入姓名" 
+        value="{{name}}" 
+        data-field="name" 
+        bindinput="handleInput"
+      />
+    </view>
+
+    <view class="form-item">
+      <text class="label">身份证号</text>
+      <input 
+        class="input" 
+        placeholder="请输入身份证号码" 
+        value="{{idCard}}" 
+        data-field="idCard" 
+        bindinput="handleInput"
+      />
+    </view>
+  </view>
+
+  <!-- 提交按钮 -->
+  <button 
+    class="submit-btn" 
+    type="primary" 
+    loading="{{loading}}" 
+    bindtap="handleSubmit"
+  >
+    {{loading ? '提交中...' : '立即支付'}}
+  </button>
+</view>

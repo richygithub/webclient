@@ -20,28 +20,7 @@ interface CourseInfo {
 interface CourseCode{
   data :ArrayBuffer
 }
-// 模拟数据生成器
-const mockCourseData = (id: string): CourseInfo => ({
-  id,
-  title: '沉浸式自然探索课程',
-  price: 298,
-  desc: '这是一门专为青少年设计的户外探索课程，通过实地观察、动手实践和团队协作，帮助学员深入了解生态系统。课程包含森林徒步、动植物识别、野外生存技能等内容。',
-  cover:'沉浸式自然探索课程',
-  images: [
-    'https://picsum.photos/750/500?random=1',
-    'https://picsum.photos/750/500?random=2',
-    'https://picsum.photos/750/500?random=3'
-  ],
-  duration: '2天1夜',
-  location: '杭州西溪国家湿地公园',
-  features: [
-    '专业自然导师带队',
-    '安全保险全程覆盖',
-    '提供全套探索装备',
-    '小班制教学（6-8人）',
-    '颁发课程结业证书'
-  ]
-})
+
 
 Page({
   data: {
@@ -155,6 +134,7 @@ Page({
 
   handleBuy() {
     const { id, price } = this.data.course
+    console.log(`navigate ${id}, ${price}`)
     wx.navigateTo({
       url: `/pages/payment/payment?courseId=${id}&amount=${price}`
     })
