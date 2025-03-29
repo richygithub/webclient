@@ -6,6 +6,11 @@ interface ApiResponse<T> {
   data: T
 }
 
+interface LoginResp{
+  data:number,
+  token:string
+}
+
 interface CourseInfo {
   id: string
   title: string
@@ -31,7 +36,7 @@ Page({
 
   onLoad(options: { id: string }) {
     this.loadCourseDetail(options.id)
-    this.loadQrcode(options.id)
+    //this.loadQrcode(options.id)
   },
 
   async loadCourseDetail(id: string) {
@@ -134,6 +139,7 @@ Page({
 
   handleBuy() {
     const { id, price } = this.data.course
+    console.log("course info:",this.data.course)
     console.log(`navigate ${id}, ${price}`)
     wx.navigateTo({
       url: `/pages/payment/payment?courseId=${id}&amount=${price}`

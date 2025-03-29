@@ -1,8 +1,9 @@
 // app.ts
 App<IAppOption>({
   globalData: {
-    apiBase:"https://127.0.0.1/api"
+    apiBase:"https://127.0.0.1/api",
     //apiBase:"https://libl.top/api"
+    token:""
   },
   onLaunch(options) {
 
@@ -29,13 +30,14 @@ App<IAppOption>({
         console.log(res.code)
         if(res.code){
                 // 将 code 发送到你的服务器
-        wx.request({
+        wx.request<LoginResp>({
           url: `${getApp().globalData.apiBase}/login`,
           method: 'POST',
           data: { code: res.code },
           success(response) {
-          const openid = response.data.openid;
-          console.log('用户OpenID:', openid);
+          const token = response.data.token;
+          getApp().globalData.token = token;
+          console.log('用户token:', response.data);
         }
         });
         }

@@ -42,6 +42,7 @@ Page<{
       return;
     }
 
+    console.log(`[debug] payment load ${options.courseId},${options.amount}`)
     this.setData({
       courseId: options.courseId,
       amount: parseFloat(options.amount)
@@ -102,10 +103,11 @@ Page<{
   async createOrder(): Promise<{ orderNo: string }> {
     const { courseId, amount, name, idCard } = this.data;
     const res = await wx.request<{ code: number; data: { orderNo: string }; msg?: string }>({
-      url: 'https://your-api.com/order/create',
+      url: `${getApp().globalData.apiBase}/order/create`,
       method: 'POST',
-      data: { courseId, amount, name, idCard }
+      data: { courseId, amount, name, idCard, "token": getApp().globalData.token }
     });
+    console.log(`create Order `,res)
 
     if (res.data.code !== 200) {
       throw new Error(res.data.msg || '创建订单失败');
