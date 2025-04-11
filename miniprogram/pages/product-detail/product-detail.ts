@@ -142,7 +142,8 @@ Page({
     console.log("course info:",this.data.course)
     console.log(`navigate ${id}, ${price}`)
     wx.navigateTo({
-      url: `/pages/payment/payment?courseId=${id}&amount=${price}`
+      //url: `/pages/payment/payment?courseId=${id}&amount=${price}`
+      url: `/pages/order/order?courseId=${id}&amount=${price}`
     })
   },
 

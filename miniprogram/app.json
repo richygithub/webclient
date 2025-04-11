@@ -3,6 +3,7 @@
     "pages/index/index",
     "pages/product-detail/product-detail",
     "pages/payment/payment",
+    "pages/order/order",
     "pages/logs/logs"
   ],
   "window": {
