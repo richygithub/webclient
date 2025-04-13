@@ -13,6 +13,19 @@ export const formatTime = (date: Date) => {
   )
 }
 
+export const addTraveler = (  travelers: Traveler[], newTraveler: Traveler )=>{
+  const existingIndex = travelers.findIndex(t => t.idCard === newTraveler.idCard)
+  travelers =  existingIndex > -1 
+  ? [
+      ...travelers.slice(0, existingIndex),
+      newTraveler,
+      ...travelers.slice(existingIndex + 1)
+    ]
+  : [...travelers, newTraveler]
+  
+}
+
+
 const formatNumber = (n: number) => {
   const s = n.toString()
   return s[1] ? s : '0' + s

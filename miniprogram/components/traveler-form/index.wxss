@@ -1,0 +1,20 @@
+.form-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20rpx 32rpx;
+}
+.form-btns {
+  display: flex;
+  flex-direction:row;
+}
+.form-title{
+  margin-left: auto; 
+  margin-right: auto; 
+  font-weight: bold;
+}
+.input-with-unit {
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}

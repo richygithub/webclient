@@ -21,3 +21,18 @@ interface Course {
   price: number
   cover: string
 }
+
+// 出行人类型
+interface Traveler {
+  name: string
+  age?: number | string
+  gender?: '男' | '女' | string
+  class?: string
+  idCard: string
+
+  relation?: string
+}
+
+interface UserInfo{
+  travelers: Traveler[],
+}

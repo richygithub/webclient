@@ -31,9 +31,9 @@
     <view wx:for="{{tabs}}" wx:key="key" 
           class="tab-item {{currentTab === item.key ? 'active' : ''}}" 
           bindtap="switchTab" data-key="{{item.key}}">
-      <image src="{{currentTab === item.key ? item.activeIcon : item.icon}}" class="tab-icon" />
+
       <text class="tab-text">{{item.text}}</text>
-      <view wx:if="{{item.key === 'cart' && cartBadge}}" class="badge" />
+      
     </view>
   </view>
 </view><!--index.wxml-->

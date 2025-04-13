@@ -25,7 +25,7 @@ Page({
       //   url: `${getApp().globalData.apiBase}/courses/`,
       //   method: 'GET'
       // })
-      
+      console.log(" load courses")
       wx.request<Course[]>({
             url: `${getApp().globalData.apiBase}/courses/`,
             header: {
@@ -88,6 +88,9 @@ Page({
   loadProfile() {
     // 个人中心数据加载逻辑
     console.log('加载个人资料')
+    wx.navigateTo({
+      url: `/pages/my/my`
+    })
   },
   navigateToDetail(e: WechatMiniprogram.TouchEvent) {
     const id = e.currentTarget.dataset.id

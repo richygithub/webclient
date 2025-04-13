@@ -1,0 +1,49 @@
+<view class="container">
+  <!-- 绑定手机号行 -->
+  <view class="row">
+    <text class="label">手机绑定</text>
+    <view class="value">
+      <button 
+        class="bind-btn" 
+        open-type="getPhoneNumber" 
+        bindgetphonenumber="onGetPhoneNumber"
+      >
+        {{phoneNumber ? '修改绑定' : '绑定手机'}}
+      </button>
+      <text wx:if="{{phoneNumber}}" class="phone">{{phoneNumber}}</text>
+    </view>
+  </view>
+
+  <!-- 出行人管理行 -->
+  <view class="row">
+    <text class="label">出行人管理</text>
+    <view class="value travelers">
+      <view class="add-btn" bindtap="showTravelerForm">
+        <van-icon name="add" size="24rpx" /> 添加出行人
+      </view>
+      <block wx:for="{{travelers}}" wx:key="index">
+        <view class="traveler-item">
+          <text class="name">{{item.name}}</text>
+          <van-button 
+            size="mini" 
+            plain 
+            hairline 
+            bindtap="editTraveler" 
+            data-index="{{index}}"
+          >
+            编辑
+          </van-button>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 复用表单组件 -->
+  <traveler-form 
+    id="travelerForm"
+    show="{{showForm}}"
+    traveler="{{currentTraveler}}"
+    bind:submit="handleSubmit"
+    bind:close="hideForm"
+  />
+</view>

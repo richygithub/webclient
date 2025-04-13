@@ -2,8 +2,11 @@
 App<IAppOption>({
   globalData: {
     apiBase:"https://127.0.0.1/api",
-    //apiBase:"https://libl.top/api"
-    token:""
+    //apiBase:"https://libl.top/api",
+    token:"",
+    baseInfo:{
+      travelers:[]
+    },
   },
   onLaunch(options) {
 

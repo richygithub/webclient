@@ -1,0 +1,91 @@
+<van-popup 
+  show="{{ show }}" 
+  position="bottom" 
+  round
+  bind:close="handleClose"
+>
+  <view class="form-container">
+    <view class="form-title">{{ traveler.idCard ? '编辑' : '新增' }}出行人</view>
+    
+    <van-cell-group>
+      <van-field
+        label="姓名"
+        required
+        value="{{ localTraveler.name }}"
+        placeholder="请输入姓名"
+        border="{{ false }}"
+        bind:change="onChangeName"
+      />
+      <van-field
+        label="身份证"
+        type="idcard"
+        required
+        value="{{ localTraveler.idCard }}"
+        placeholder="请输入身份证号"
+        bind:change="onChangeIdCard"
+        error-message="{{errorMessage}}"
+      />
+ 
+      <van-field
+        label="出生日期"
+        value="{{ localTraveler.birthDate }}"
+        disabled
+        border="{{false}}"
+      />
+      <van-field
+        label="年龄"
+        type="number"
+        value="{{ localTraveler.age }}"
+        disabled
+        border="{{false}}"
+      />
+      <van-field
+        label="性别"
+        value="{{ localTraveler.gender }}"
+        placeholder="请选择"
+        is-link
+        bind:click="showGenderPicker"
+      />
+      <view class="input-with-unit">
+          <van-field
+          label="身高"
+          type="digit"
+          value="{{ localTraveler.height }}"
+          placeholder="请输入数字"
+          maxlength="3"
+          bind:click="onHeightInput"
+          />
+          <text class="unit">cm</text>
+      </view>
+
+    </van-cell-group>
+
+    <view class="form-btns">
+      <van-button 
+        type="default" 
+
+        bindtap="handleClose"
+      >
+        取消
+      </van-button>
+      <van-button 
+        type="primary" 
+        bindtap="handleSubmit"
+      >
+        确认
+      </van-button>
+    </view>
+  </view>
+
+  <van-popup 
+    show="{{ showGenderPicker }}" 
+    position="bottom"
+    bind:close="hideGenderPicker"
+  >
+    <van-picker
+      columns="{{ ['男', '女'] }}"
+      bind:confirm="onGenderConfirm"
+      bind:cancel="hideGenderPicker"
+    />
+  </van-popup>
+</van-popup>
