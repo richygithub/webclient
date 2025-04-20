@@ -5,6 +5,7 @@ interface IAppOption {
     userInfo?: WechatMiniprogram.UserInfo,
     apiBase:string,
     token:string,
+    baseInfo: UserInfo,
   }
   userInfoReadyCallback?: WechatMiniprogram.GetUserInfoSuccessCallback,
 }
