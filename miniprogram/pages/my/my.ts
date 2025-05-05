@@ -12,6 +12,14 @@ Page({
     currentTraveler: {} as Traveler, // 当前编辑对象
     showGenderPicker: false
   },
+  onLoad() {
+    console.log("my load",getApp().globalData)
+    this.setData({
+      phoneNumber:getApp().globalData.baseInfo.phone,
+      travelers:getApp().globalData.baseInfo.travelers
+    })
+    //this.loadQrcode(options.id)
+  },
   showPopup(){
     this.setData({ show: true });
   },
@@ -20,8 +28,23 @@ Page({
     if (e.detail.errMsg === 'getPhoneNumber:ok') {
       // 调用后端解密接口
       console.log('加密数据:', e.detail)
-      this.setData({
-        phoneNumber: '138****1234' // 模拟数据
+      /*
+      {errMsg: "getPhoneNumber:ok", encryptedData: "/7cr041mWJ5b2z8UO+rA9vA6iGJIk3xQ2Bq6BoKKyOsRJL6r27…bIOIcZ3JfWg6/RsiCQsENdPFU6avF28G0482nmsdAZ+rWqg==", iv: "GbegsUL64eA4dkS2w4gdaw==", code: "26176c84fad99bdb1a2e8e90d00475a1904702e14acef54861f86844255dcc0b"}
+      */
+
+      wx.request<BindPhoneRet>({
+        url: `${getApp().globalData.apiBase}/user/bindphone`,
+        method: 'POST',
+        data: { "code":e.detail.code, "token": getApp().globalData.token },
+        success: (res) => {
+          console.log('请求成功:', res.data); // res.data为服务器响应内容
+          this.setData({
+            phoneNumber:res.data.phone
+          })
+        },
+        fail: (err) => {
+          console.error('请求失败:', err);
+        },
       })
     }
   },

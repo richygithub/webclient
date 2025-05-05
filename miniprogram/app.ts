@@ -5,8 +5,12 @@ App<IAppOption>({
     //apiBase:"https://libl.top/api",
     token:"",
     baseInfo:{
+      phone:undefined,
       travelers:[]
     },
+    courses:{
+
+    }
   },
   onLaunch(options) {
 
@@ -40,6 +44,7 @@ App<IAppOption>({
           success(response) {
           const token = response.data.token;
           getApp().globalData.token = token;
+          getApp().globalData.baseInfo = response.data.baseInfo
           console.log('用户token:', response.data);
         }
         });

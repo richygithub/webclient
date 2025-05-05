@@ -1,139 +1,125 @@
-type VanField = {
-  detail:  string | number ;
-  currentTarget: {
-    dataset: { field: string; index: number };
-  };
-};
-
 Page({
   data: {
+    // 商品信息
     courseId:"",
-    amount:0,
-    travelers: [{
-      name: '',
-      gender: '男',
-      height: null,
-      nation: '汉族',
-      school: '',
-      gradeClass: '',
-      idCard: '',
-      birthDate: ''
-    }],
-    nations: ['汉族', '蒙古族', '回族', '藏族', '维吾尔族', '其他'],
-    genderOptions: ['男', '女']
-  },
-
-    // 初始化获取参数
-    onLoad(options: { courseId?: string; amount?: string }) {
-      if (!options.courseId || !options.amount) {
-        wx.showToast({ title: '参数错误', icon: 'none' });
-        wx.navigateBack();
-        return;
-      }
-  
-      console.log(`[debug] payment load ${options.courseId},${options.amount}`)
-      this.setData({
-        courseId: options.courseId,
-        amount: parseFloat(options.amount)
-      });
+    goods: {
+      images: ["/images/tour.jpg"],
+      name: "丽江古城三日文化之旅",
+      desc: "深度体验纳西文化，包含特色民宿住宿",
+      location: "云南·丽江",
+      duration: "3天2晚",
+      price: 2680
     },
+    totalPrice:0,
+    selectedTravelers: [], // 默认选中ID为1的出行人
+    selectedGuardians: [1],
+    // 出行人列表
+    travelers: [
+      { id: 1, name: "张三", phone: "138****1234" },
+      { id: 2, name: "李四", phone: "139****5678" }
+    ],
 
-  // 身份证输入处理
-  handleIdCardInput(e: any) {
-    const { index } = e.currentTarget.dataset
-  
-    const value = e.detail
-    console.log("idcard",value)
-    const travelers = this.data.travelers
-    
-    travelers[index].idCard = value
-    this.setData({ travelers })
-    
-    // 自动计算出生日期
-    if (value.length === 15 || value.length === 18) {
-      travelers[index].birthDate = this.calculateBirthDate(value)
-      this.setData({ travelers })
-    }
+    // 监护人列表
+    guardians: [
+      { id: 3, name: "王五", phone: "136****9012" }
+    ]
   },
-
-  // 计算出生日期
-  calculateBirthDate(idCard: string): string {
-    let birthStr = ''
-    if (idCard.length === 15) {
-      birthStr = '19' + idCard.substr(6, 6)
-    } else if (idCard.length === 18) {
-      birthStr = idCard.substr(6, 8)
-    }
-    
-    return birthStr ? `${birthStr.substr(0,4)}-${birthStr.substr(4,2)}-${birthStr.substr(6,2)}` : ''
+  onShow(){
+    this.loadData()
   },
+  loadData(){
 
-  // 通用输入处理
-  handleInput(e: VanField) {
-    console.log("handle input",e.detail)
-    const { field, index } = e.currentTarget.dataset
-    const travelers = this.data.travelers
-    console.log("field:",field,"index:",index)
-    travelers[index][field] = e.detail
-    console.log("---------",travelers)
-    this.setData({ travelers })
+    let courseId = this.data.courseId
+    this.setData({
+      travelers:getApp().globalData.baseInfo.travelers,
+      goods:getApp().globalData.courses[courseId],
+    })
   },
-
-  // 民族选择
-  handleNationChange(e: any) {
-    const { index } = e.currentTarget.dataset
-    const travelers = this.data.travelers
-    travelers[index].nation = this.data.nations[e.detail.value]
-    this.setData({ travelers })
-  },
-
-  // 性别选择
-  handleGenderChange(e: any) {
-    const { index } = e.currentTarget.dataset
-    const travelers = this.data.travelers
-    travelers[index].gender = e.detail.value
-    this.setData({ travelers })
-  },
-
-  // 添加出行人
-  addTraveler() {
-    const newTraveler = {
-      name: '',
-      gender: '男',
-      height: null,
-      nation: '汉族',
-      school: '',
-      gradeClass: '',
-      idCard: '',
-      birthDate: ''
+  onLoad(options: { courseId?: string}){
+    if (!options.courseId ){
+      console.log("courseId is undefined")
+      wx.navigateBack()
     }
     this.setData({
-      travelers: [...this.data.travelers, newTraveler]
+      courseId:options.courseId
+    })
+
+    console.log("order On load,course:",options.courseId)
+    this.loadData()
+
+  },
+  // 新增复选框变更处理
+  onTravelerChange(e: WechatMiniprogram.CustomEvent) {
+    this.setData({
+      selectedTravelers: e.detail,
+      totalPrice:e.detail.length*this.data.goods.price,
+    })
+    console.log("data?",this.data.selectedTravelers)
+  },
+
+  onGuardianChange(e: WechatMiniprogram.CustomEvent) {
+    this.setData({
+      selectedGuardians: e.detail
+    })
+  },
+  // 添加出行人
+  handleAddTraveler() {
+    wx.navigateTo({
+      url: '/pages/traveler/traveler'
     })
   },
 
-  // 提交表单
-  submitForm() {
-    console.log('提交数据：', this.data.travelers)
-    const { courseId, amount, travelers } = this.data;
-    wx.request<CourseInfo>({
+  // 添加监护人
+  handleAddGuardian() {
+    wx.navigateTo({
+      url: '/pages/selector/selector?type=guardian'
+    })
+  },
+  // 提交订单处理
+  handleSubmit() {
+    if (this.data.selectedTravelers.length === 0) {
+      wx.showToast({ title: '请选择出行人', icon: 'none' })
+      return
+    }
+
+    const orderData = {
+      courseId: this.data.courseId,
+      travelers: this.data.selectedTravelers,
+      totalPrice: this.data.totalPrice,
+      token: getApp().globalData.token
+    }
+    
+    // 实际应调用API提交数据
+    wx.request<BindPhoneRet>({
       url: `${getApp().globalData.apiBase}/order/create`,
       method: 'POST',
-      data: { courseId, amount, travelers, "token": getApp().globalData.token },
-      success: (res) => {
-        console.log('请求成功:', res.data); // res.data为服务器响应内容
-
-        this.setData({
-
+      data: orderData,
+      success: async (res) => {
+        console.log('創建訂單:', res.data); // res.data为服务器响应内容
+        let payRet = await wx.requestPayment({
+          timeStamp:Math.floor(Date.now() / 1000).toString(),
+          nonceStr:res.data.nonce_str,
+          paySign:res.data.sign,
+          package:res.data.prepay_id,
+          signType:"MD5",
+  
         })
+        console.log("paymentret:",payRet)
       },
       fail: (err) => {
-  
         console.error('请求失败:', err);
       },
     })
 
-
-
+    console.log('提交订单数据:', orderData)
+    wx.showToast({ title: '提交成功' })
+  },
+  // 删除人员
+  handleDelete(e: any) {
+    const { type, id } = e.currentTarget.dataset
+    const key = type === 'traveler' ? 'travelers' : 'guardians'
+    this.setData({
+      [key]: this.data[key].filter((item: any) => item.id !== id)
+    })
   }
 })

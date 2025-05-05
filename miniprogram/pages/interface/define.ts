@@ -3,6 +3,40 @@ interface Camp {
   title: string;
   description: string;
 }
+interface ApiResponse<T> {
+  code: number
+  message?: string
+  data: T
+}
+
+interface BaseInfo{
+  phone:string|undefined,
+  travelers: Traveler[],
+}
+
+interface LoginResp{
+  data:number,
+  token:string,
+  baseInfo:BaseInfo
+}
+interface BindPhoneRet{
+  error:number,
+  phone:string
+}
+interface CourseInfo {
+  id: string
+  title: string
+  price: number
+  cover: string
+  desc: string
+  images: string[]
+  duration: string
+  location: string
+  features: string[]
+}
+interface CourseCode{
+  data :ArrayBuffer
+}
 
 // 新增类型定义
 interface Order {

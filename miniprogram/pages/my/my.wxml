@@ -4,11 +4,12 @@
     <text class="label">手机绑定</text>
     <view class="value">
       <button 
+        wx:if="{{!phoneNumber}}"
         class="bind-btn" 
         open-type="getPhoneNumber" 
         bindgetphonenumber="onGetPhoneNumber"
       >
-        {{phoneNumber ? '修改绑定' : '绑定手机'}}
+      绑定手机
       </button>
       <text wx:if="{{phoneNumber}}" class="phone">{{phoneNumber}}</text>
     </view>

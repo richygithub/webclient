@@ -35,6 +35,11 @@ Page({
           success: (res) => {
             console.log('请求成功:', res.data); // res.data为服务器响应内容
 
+            let courses = getApp().globalData.courses;
+            res.data.forEach((item)=>{
+              courses[item.id] = item
+            })
+
             this.setData({
               courses:res.data
             })

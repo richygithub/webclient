@@ -1,0 +1,112 @@
+<view class="container">
+  <block wx:for="{{travelers}}" wx:key="index">
+    <view class="section">
+      <view class="section-title">
+        <text>出行人 {{index + 1}}</text>
+      <block wx:if="{{index >= 1}}">
+      <van-icon 
+        name="delete" 
+        color="#ee0a24" 
+        size="36rpx" 
+        class="delete-btn"
+        data-index="{{index}}"
+        bind:tap="removeTraveler"
+      />
+      </block>
+    </view>
+      <!-- 姓名 -->
+      <van-field
+        label="姓名"
+        required
+        value="{{item.name}}"
+        data-field="name"
+        data-index="{{index}}"
+        bind:change="handleInput"
+      />
+
+      <!-- 性别 -->
+      <view class="form-item">
+        <view class="label">性别</view>
+        <van-radio-group 
+          value="{{item.gender}}" 
+          data-index="{{index}}"
+          bind:change="handleGenderChange"
+        >
+          <van-radio name="男">男</van-radio>
+          <van-radio name="女">女</van-radio>
+        </van-radio-group>
+      </view>
+
+      <!-- 身高 -->
+      <van-field
+        label="身高(cm)"
+        type="number"
+        value="{{item.height}}"
+        data-field="height"
+        data-index="{{index}}"
+        bind:change="handleInput"
+      />
+
+      <!-- 民族 -->
+      <van-field
+        label="民族"
+        value="{{item.nation}}"
+        data-index="{{index}}"
+        is-link
+        readonly
+        bind:click="showNationPicker"
+      >
+        <van-picker
+          show-toolbar
+          columns="{{nations}}"
+          bind:confirm="handleNationChange"
+          data-index="{{index}}"
+          slot="right-icon"
+        />
+      </van-field>
+
+      <!-- 学校 -->
+      <van-field
+        label="学校"
+        value="{{item.school}}"
+        data-field="school"
+        data-index="{{index}}"
+        bind:change="handleInput"
+      />
+
+      <!-- 年级班级 -->
+      <van-field
+        label="年级班级"
+        type="number"
+        value="{{item.gradeClass}}"
+        data-field="gradeClass"
+        data-index="{{index}}"
+        bind:change="handleInput"
+        placeholder="例如：301"
+      />
+
+      <!-- 身份证号 -->
+      <van-field
+        label="身份证号"
+        required
+        type="idcard"
+        value="{{item.idCard}}"
+        data-index="{{index}}"
+        bind:change="handleIdCardInput"
+      />
+
+      <!-- 出生日期 -->
+      <van-field
+        label="出生日期"
+        value="{{item.birthDate}}"
+        disabled
+        border="{{false}}"
+      />
+    </view>
+  </block>
+
+  <view class="button-group">
+    <van-button type="primary" plain bind:click="addTraveler">+ 添加出行人</van-button>
+    <van-button type="primary" bind:click="submitForm">提交信息</van-button>
+  </view>
+</view>

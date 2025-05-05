@@ -1,48 +1,51 @@
-.container {
-  padding: 20rpx;
+/* 商品卡片自定义样式 */
+.custom-tags {
+  margin-top: 10rpx;
 }
 
+.van-card__price {
+  color: #ee0a24;
+  font-size: 36rpx;
+}
+
+.van-card__title {
+  font-size: 32rpx !important;
+  line-height: 1.5;
+}
+
+/* 添加按钮样式 */
+.add-button .add-btn {
+  height: 50rpx !important;
+  line-height: 50rpx !important;
+}
+
+/* 删除图标样式 */
+.delete-icon {
+  color: #ee0a24;
+  padding: 10rpx;
+  font-size: 32rpx !important;
+}
+
+/* 区块间隔 */
 .section {
-  margin-bottom: 40rpx;
-  background: #fff;
-  padding: 20rpx;
-  border-radius: 12rpx;
-  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.05);
+  margin: 20rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.1);
 }
 
-.section-title {
-  font-size: 32rpx;
-  color: #333;
-  padding-bottom: 20rpx;
-  margin-bottom: 20rpx;
-  border-bottom: 2rpx solid #eee;
+/* 底部提交栏样式 */
+.submit-bar {
+  box-shadow: 0 -4rpx 12rpx rgba(0,0,0,0.1);
 }
 
-.form-item {
-  display: flex;
-  align-items: center;
+.van-submit-bar__bar {
+  height: 120rpx !important;
+}
+
+.custom-tip {
   padding: 20rpx 32rpx;
-}
-
-.label {
-  width: 160rpx;
-  color: #646566;
-  font-size: 28rpx;
-}
-
-van-radio-group {
-  flex: 1;
-}
-
-van-radio {
-  display: inline-block;
-  margin-right: 40rpx;
-}
-
-.button-group {
-  padding: 40rpx 20rpx;
-}
-
-.button-group van-button {
-  margin-bottom: 30rpx;
+  font-size: 26rpx;
+  color: #666;
+  background: #fafafa;
 }

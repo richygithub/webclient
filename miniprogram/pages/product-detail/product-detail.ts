@@ -1,30 +1,5 @@
 // pages/product-detail/product-detail.ts
 
-interface ApiResponse<T> {
-  code: number
-  message?: string
-  data: T
-}
-
-interface LoginResp{
-  data:number,
-  token:string
-}
-
-interface CourseInfo {
-  id: string
-  title: string
-  price: number
-  cover: string
-  desc: string
-  images: string[]
-  duration: string
-  location: string
-  features: string[]
-}
-interface CourseCode{
-  data :ArrayBuffer
-}
 
 
 Page({
@@ -144,6 +119,8 @@ Page({
     wx.navigateTo({
       //url: `/pages/payment/payment?courseId=${id}&amount=${price}`
       url: `/pages/order/order?courseId=${id}&amount=${price}`
+      //url: `/pages/traveler/traveler`
+
     })
   },
 

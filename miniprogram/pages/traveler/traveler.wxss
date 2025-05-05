@@ -1,0 +1,48 @@
+.container {
+  padding: 20rpx;
+}
+
+.section {
+  margin-bottom: 40rpx;
+  background: #fff;
+  padding: 20rpx;
+  border-radius: 12rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.05);
+}
+
+.section-title {
+  font-size: 32rpx;
+  color: #333;
+  padding-bottom: 20rpx;
+  margin-bottom: 20rpx;
+  border-bottom: 2rpx solid #eee;
+}
+
+.form-item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 32rpx;
+}
+
+.label {
+  width: 160rpx;
+  color: #646566;
+  font-size: 28rpx;
+}
+
+van-radio-group {
+  flex: 1;
+}
+
+van-radio {
+  display: inline-block;
+  margin-right: 40rpx;
+}
+
+.button-group {
+  padding: 40rpx 20rpx;
+}
+
+.button-group van-button {
+  margin-bottom: 30rpx;
+}
